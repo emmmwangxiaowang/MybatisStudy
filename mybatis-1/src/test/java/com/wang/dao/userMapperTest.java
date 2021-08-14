@@ -4,7 +4,9 @@ import com.wang.pojo.User;
 import com.wang.utils.MybatisUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class userMapperTest
 {
@@ -33,7 +35,7 @@ public class userMapperTest
         SqlSession sqlSession = MybatisUtils.getSqlSession();
 
         userMapper mapper = sqlSession.getMapper(userMapper.class);
-        User       user = mapper.getUserId(1);
+        User       user = mapper.getUserById(1);
         System.out.println(user);
 
         sqlSession.close();
@@ -69,6 +71,50 @@ public class userMapperTest
         SqlSession sqlSession = MybatisUtils.getSqlSession();
         userMapper mapper     = sqlSession.getMapper(userMapper.class);
         mapper.deleteUser(4);
+
+        sqlSession.commit();
+        sqlSession.close();
+    }
+
+    @Test
+    public void addUser2(){
+        SqlSession sqlSession = MybatisUtils.getSqlSession();
+
+        userMapper           mapper = sqlSession.getMapper(userMapper.class);
+        Map <String, Object> map    = new HashMap <String, Object>();
+        map.put("userid",5);
+        map.put("userName","zeroQ");
+        map.put("userPwd","123");
+        mapper.addUser2(map);
+
+        sqlSession.commit();
+        sqlSession.close();
+    }
+
+    @Test
+    public void getUserById2(){
+        SqlSession sqlSession = MybatisUtils.getSqlSession();
+        userMapper mapper     = sqlSession.getMapper(userMapper.class);
+        Map <String, Object> map = new HashMap <>();
+        map.put("id",2);
+        map.put("name","蒋莹莹");
+
+        User userById2 = mapper.getUserById2(map);
+        System.out.println(userById2);
+
+        sqlSession.commit();
+        sqlSession.close();
+    }
+
+    @Test
+    public void getUserLike(){
+        SqlSession sqlSession = MybatisUtils.getSqlSession();
+        userMapper mapper     = sqlSession.getMapper(userMapper.class);
+        List <User> list = mapper.getUserLike("%李%");
+        for (User user : list)
+        {
+            System.out.println(user);
+        }
 
         sqlSession.commit();
         sqlSession.close();
