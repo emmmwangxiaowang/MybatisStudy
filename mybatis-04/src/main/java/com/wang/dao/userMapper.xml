@@ -14,7 +14,7 @@
     </resultMap>
 
     <select id="getUserById" parameterType="int" resultMap="userMap">
-           select * from mybatis.user where id =#{id}
+           select * from mybatis.user where id =#{qid}
     </select>
 
     <select id="getUserByLimit" parameterType="map" resultMap="userMap">
